@@ -22,7 +22,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
 {
     External (_SB.SLPB, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC, DeviceObj)
-    //External (_SB.PCI0.LPCB.H_EC.LID0, DeviceObj)
+    External (_SB.PCI0.LPCB.H_EC.LID0, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC.XQ34, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ50, MethodObj)    // 0 Arguments
     External (_SB.PCI0.LPCB.H_EC.XQ51, MethodObj)    // 0 Arguments
@@ -36,7 +36,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q34")
             If (_OSI ("Darwin"))
             {
-                Notify (\_SB.SLPB, 0x80)
+                //Notify (\_SB.SLPB, 0x80)
                 //Notify (\_SB.PCI0.LPCB.H_EC.LID0, 0x80)
             }
             Else

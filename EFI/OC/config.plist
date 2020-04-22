@@ -773,7 +773,7 @@
 				<key>Comment</key>
 				<string></string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/VoodooPS2Mouse</string>
 				<key>MaxKernel</key>
@@ -821,7 +821,7 @@
 				<key>Comment</key>
 				<string></string>
 				<key>Enabled</key>
-				<true/>
+				<false/>
 				<key>ExecutablePath</key>
 				<string>Contents/MacOS/VoodooPS2Trackpad</string>
 				<key>MaxKernel</key>
@@ -856,6 +856,22 @@
 				<true/>
 				<key>ExecutablePath</key>
 				<string></string>
+				<key>MaxKernel</key>
+				<string></string>
+				<key>MinKernel</key>
+				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>BundlePath</key>
+				<string>Sinetek-rtsx.kext</string>
+				<key>Comment</key>
+				<string></string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/Sinetek-rtsx</string>
 				<key>MaxKernel</key>
 				<string></string>
 				<key>MinKernel</key>
@@ -1212,46 +1228,26 @@
 	<key>PlatformInfo</key>
 	<dict>
 		<key>Automatic</key>
-		<false/>
-		<key>DataHub</key>
-		<dict>
-			<key>BoardProduct</key>
-			<string>Mac-CAD6701F7CEA0921</string>
-			<key>SystemProductName</key>
-			<string>MacBookPro14,2</string>
-			<key>SystemSerialNumber</key>
-			<string>C02XL0RRHV2N</string>
-			<key>SystemUUID</key>
-			<string>86ED641E-B55F-4554-A820-44089899DBAE</string>
-		</dict>
+		<true/>
 		<key>Generic</key>
 		<dict>
 			<key>MLB</key>
-			<string>C02843108QXHRPC1H</string>
+			<string>C02828600CDHRPCJA</string>
+			<key>SpoofVendor</key>
+			<false/>
 			<key>SystemProductName</key>
 			<string>MacBookPro14,2</string>
 			<key>SystemSerialNumber</key>
-			<string>C02XL0RRHV2N</string>
+			<string>C02X20L4HV2N</string>
 			<key>SystemUUID</key>
-			<string>86ED641E-B55F-4554-A820-44089899DBAE</string>
-		</dict>
-		<key>PlatformNVRAM</key>
-		<dict>
-			<key>BID</key>
-			<string>Mac-CAD6701F7CEA0921</string>
-			<key>FirmwareFeatures</key>
-			<data>duEP/AAAAAA=</data>
-			<key>FirmwareFeaturesMask</key>
-			<data>f/8f/wAAAAA=</data>
-			<key>MLB</key>
-			<string>C02843108QXHRPC1H</string>
+			<string>8A24FE2B-5E85-4B2E-806E-D08BFA532D5E</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
 		<key>UpdateNVRAM</key>
 		<true/>
 		<key>UpdateSMBIOS</key>
-		<false/>
+		<true/>
 		<key>UpdateSMBIOSMode</key>
 		<string>Create</string>
 	</dict>
