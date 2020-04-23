@@ -46,14 +46,6 @@
 				<key>Enabled</key>
 				<true/>
 				<key>Path</key>
-				<string>SSDT-PLUG-_PR.PR00.aml</string>
-			</dict>
-			<dict>
-				<key>Comment</key>
-				<string></string>
-				<key>Enabled</key>
-				<true/>
-				<key>Path</key>
 				<string>SSDT-RMDT.aml</string>
 			</dict>
 			<dict>
@@ -79,6 +71,14 @@
 				<true/>
 				<key>Path</key>
 				<string>SSDT-SBUS.aml</string>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string></string>
+				<key>Enabled</key>
+				<true/>
+				<key>Path</key>
+				<string>SSDT-PLUG.aml</string>
 			</dict>
 		</array>
 		<key>Block</key>
@@ -1232,15 +1232,15 @@
 		<key>Generic</key>
 		<dict>
 			<key>MLB</key>
-			<string>C02828600CDHRPCJA</string>
+			<string>C02813403GUHRPC1F</string>
 			<key>SpoofVendor</key>
 			<false/>
 			<key>SystemProductName</key>
 			<string>MacBookPro14,2</string>
 			<key>SystemSerialNumber</key>
-			<string>C02X20L4HV2N</string>
+			<string>C02WHLZRHV2N</string>
 			<key>SystemUUID</key>
-			<string>8A24FE2B-5E85-4B2E-806E-D08BFA532D5E</string>
+			<string>68BBCDAC-D578-4EEC-A5CE-2096A7013F58</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
