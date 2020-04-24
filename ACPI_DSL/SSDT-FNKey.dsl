@@ -31,6 +31,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
 
     Scope (_SB.PCI0.LPCB.H_EC)
     {
+        /*
         Method (_Q34, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
         {
             \RMDT.P1 ("KEYBOARD-Q34")
@@ -44,6 +45,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 \_SB.PCI0.LPCB.H_EC.XQ34 ()
             }
         }
+        */
         
         Method (_Q50, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
         {
