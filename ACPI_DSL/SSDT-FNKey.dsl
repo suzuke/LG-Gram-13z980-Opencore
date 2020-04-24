@@ -27,25 +27,44 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.XQ50, MethodObj)    // 0 Arguments
     External (_SB.PCI0.LPCB.H_EC.XQ51, MethodObj)    // 0 Arguments
     External (_SB.PCI0.LPCB.PS2K, DeviceObj)
+    External (_SB.PCI9.FNOK, IntObj)
+    External (_SB.PCI9.MODE, IntObj)
     External (RMDT.P1__, MethodObj) 
+    External (RMDT.P2__, MethodObj)
+    External (_SB.PCI9.TPTS, IntObj)
+    External (_SB.PCI9.TWAK, IntObj)
 
     Scope (_SB.PCI0.LPCB.H_EC)
     {
-        /*
+        
         Method (_Q34, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
         {
             \RMDT.P1 ("KEYBOARD-Q34")
             If (_OSI ("Darwin"))
             {
-                //Notify (\_SB.SLPB, 0x80)
-                //Notify (\_SB.PCI0.LPCB.H_EC.LID0, 0x80)
+                If (\_SB.PCI9.MODE == 1) //PNP0C0E
+                {
+                    \_SB.PCI9.FNOK =1
+                    \_SB.PCI0.LPCB.H_EC.XQ34()
+                }
+                Else //PNP0C0D
+                {
+                    If (\_SB.PCI9.FNOK!=1)
+                    {
+                        \_SB.PCI9.FNOK =1
+                    }
+                    Else
+                    {
+                        \_SB.PCI9.FNOK =0
+                    }
+                    Notify (\_SB.PCI0.LPCB.H_EC.LID0, 0x80)
+                }
             }
             Else
             {
                 \_SB.PCI0.LPCB.H_EC.XQ34 ()
             }
         }
-        */
         
         Method (_Q50, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
         {
@@ -59,6 +78,9 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             {
                 \_SB.PCI0.LPCB.H_EC.XQ50 ()
             }
+            
+            \RMDT.P2 ("ABCD-_PTS-Arg0=", \_SB.PCI9.TPTS)
+            \RMDT.P2 ("ABCD-_WAK-Arg0=", \_SB.PCI9.TWAK)
         }
 
         Method (_Q51, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
@@ -73,6 +95,8 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             {
                 \_SB.PCI0.LPCB.H_EC.XQ51 ()
             }
+            \RMDT.P2 ("ABCD-_PTS-Arg0=", \_SB.PCI9.TPTS)
+            \RMDT.P2 ("ABCD-_WAK-Arg0=", \_SB.PCI9.TWAK)
         }
     }
 }
