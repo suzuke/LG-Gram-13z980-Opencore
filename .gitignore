@@ -1,2 +1,2 @@
 .DS_Store
-ACPI_DSL/*.aml
+ACPI_Patch/*.aml
