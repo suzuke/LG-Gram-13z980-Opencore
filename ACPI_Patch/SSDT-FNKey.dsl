@@ -33,6 +33,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (RMDT.P2__, MethodObj)
     External (_SB.PCI9.TPTS, IntObj)
     External (_SB.PCI9.TWAK, IntObj)
+    External (LGEC, IntObj)
 
     Scope (_SB.PCI0.LPCB.H_EC)
     {
@@ -42,22 +43,26 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q34")
             If (_OSI ("Darwin"))
             {
-                If (\_SB.PCI9.MODE == 1) //PNP0C0E
+                If (LGEC)
                 {
-                    \_SB.PCI9.FNOK =1
-                    \_SB.PCI0.LPCB.H_EC.XQ34()
-                }
-                Else //PNP0C0D
-                {
-                    If (\_SB.PCI9.FNOK!=1)
+                    
+                    If (\_SB.PCI9.MODE == 1) //PNP0C0E
                     {
                         \_SB.PCI9.FNOK =1
+                        \_SB.PCI0.LPCB.H_EC.XQ34()
                     }
-                    Else
+                    Else //PNP0C0D
                     {
-                        \_SB.PCI9.FNOK =0
+                        If (\_SB.PCI9.FNOK!=1)
+                        {
+                            \_SB.PCI9.FNOK =1
+                        }
+                        Else
+                        {
+                            \_SB.PCI9.FNOK =0
+                        }
+                        Notify (\_SB.PCI0.LPCB.H_EC.LID0, 0x80)
                     }
-                    Notify (\_SB.PCI0.LPCB.H_EC.LID0, 0x80)
                 }
             }
             Else
@@ -71,16 +76,16 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q50")
             If (_OSI ("Darwin"))
             {
-                Notify (\_SB.PCI0.LPCB.PS2K, 0x0406)
-                Notify (\_SB.PCI0.LPCB.PS2K, 0x10) // Reserved
+                If (LGEC)
+                {
+                    Notify (\_SB.PCI0.LPCB.PS2K, 0x0406)
+                    Notify (\_SB.PCI0.LPCB.PS2K, 0x10) // Reserved
+                }
             }
             Else
             {
                 \_SB.PCI0.LPCB.H_EC.XQ50 ()
             }
-            
-            \RMDT.P2 ("ABCD-_PTS-Arg0=", \_SB.PCI9.TPTS)
-            \RMDT.P2 ("ABCD-_WAK-Arg0=", \_SB.PCI9.TWAK)
         }
 
         Method (_Q51, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
@@ -88,15 +93,16 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q51")
             If (_OSI ("Darwin"))
             {
-                Notify (\_SB.PCI0.LPCB.PS2K, 0x0405)
-                Notify (\_SB.PCI0.LPCB.PS2K, 0x20) // Reserved
+                If (LGEC)
+                {
+                    Notify (\_SB.PCI0.LPCB.PS2K, 0x0405)
+                    Notify (\_SB.PCI0.LPCB.PS2K, 0x20) // Reserved
+                }
             }
             Else
             {
                 \_SB.PCI0.LPCB.H_EC.XQ51 ()
             }
-            \RMDT.P2 ("ABCD-_PTS-Arg0=", \_SB.PCI9.TPTS)
-            \RMDT.P2 ("ABCD-_WAK-Arg0=", \_SB.PCI9.TWAK)
         }
     }
 }
