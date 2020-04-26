@@ -1,5 +1,5 @@
 # LG-Gram-13z980-Opencore
--
+--
 ![Hackintosh](Images/os.png)
 
 ### SPECS
@@ -16,15 +16,15 @@
 ### Working
 + Volume adjustment (FN + F10, F11, F12)
 + Backlight adjustment (FN + F2, F3)
-+ Sleep / Wake (FN + F4)
-+ Battery Information
++ Sleep / Wake (FN + F4) with PNP0C0D.
++ Battery Information works fine.
 + Touchpad works perfectly without any buggy issue.
-+ Bluetooth works
 + Audio
+
 ### Not Working
 + WIFI - Intel AC8265 is not working now.
 + TouchScreen is not working now.
-+ SD card reader is not working now.
-
++ SDCard reader is not working now.
++ Bluetooth is not working now.
 ![CPU](Images/cpu.png)
 ![GPU](Images/gpu.png)
