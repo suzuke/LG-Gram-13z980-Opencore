@@ -24,8 +24,10 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC.LID0, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC.XQ34, MethodObj)
-    External (_SB.PCI0.LPCB.H_EC.XQ50, MethodObj)    // 0 Arguments
-    External (_SB.PCI0.LPCB.H_EC.XQ51, MethodObj)    // 0 Arguments
+    External (_SB.PCI0.LPCB.H_EC.XQ36, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ37, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ40, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ72, MethodObj)
     External (_SB.PCI0.LPCB.PS2K, DeviceObj)
     External (_SB.PCI9.FNOK, IntObj)
     External (_SB.PCI9.MODE, IntObj)
@@ -34,10 +36,15 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI9.TPTS, IntObj)
     External (_SB.PCI9.TWAK, IntObj)
     External (LGEC, IntObj)
+    External (\_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
+    External (PRM0, FieldUnitObj)
+    External (PRM1, FieldUnitObj)
+    External (\_SB.PCI0.LPCB.H_EC.MAP1.MAR1, IntObj)
 
     Scope (_SB.PCI0.LPCB.H_EC)
     {
-        
+        Name (PBRI, Zero)
+           
         Method (_Q34, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
         {
             \RMDT.P1 ("KEYBOARD-Q34")
@@ -71,39 +78,75 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             }
         }
         
-        Method (_Q50, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+        Method (_Q36, 0, NotSerialized)
         {
-            \RMDT.P1 ("KEYBOARD-Q50")
+            \RMDT.P1 ("KEYBOARD-Q36")
+            \_SB.PCI0.LPCB.H_EC.XQ36()
+        }
+        Method (_Q37, 0, NotSerialized)
+        {
+            \RMDT.P1 ("KEYBOARD-Q37")
+            \_SB.PCI0.LPCB.H_EC.XQ37()
+        }
+        
+        Method (_Q40, 0, NotSerialized)
+        {
+            \RMDT.P1 ("KEYBOARD-Q40")
             If (_OSI ("Darwin"))
             {
-                If (LGEC)
+                Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
+                Store(PRM0, Local1)
+                Store(PRM1, Local2)
+                
+                \RMDT.P2("KEYBOARD-Q40-Local0", Local0)
+                \RMDT.P2("KEYBOARD-Q40-Local1", Local1)
+                \RMDT.P2("KEYBOARD-Q40-Local2", Local2)
+                                
+                If(LEqual(Local0,Local1)){
+                    If(LEqual(Local0, 0x80))
+                    {
+                        Store(0x20,Local2)
+                    }
+                    Else
+                    {
+                        If(LEqual(Local0, 0x88))
+                        {
+                            Store(0x10,Local2)
+                        }
+                    }
+                }Else{
+                    If(LGreater(Local0,Local1)){                    
+                        Store(0x10,Local2)
+                    }Else{
+                        Store(0x20,Local2)                
+                    }
+                }   
+                             
+                Store(Local0,PRM0)
+                Store(Local2,PRM1)
+                
+                If(LEqual(Local2, 0x20))
                 {
-                    Notify (\_SB.PCI0.LPCB.PS2K, 0x0406)
-                    Notify (\_SB.PCI0.LPCB.PS2K, 0x10) // Reserved
+                    Notify(\_SB.PCI0.LPCB.PS2K, 0x0405)
+                    //Notify(\_SB.PCI0.LPCB.PS2K, 0x20)
                 }
+                ElseIf(LEqual(Local2, 0x10))
+                {
+                    Notify(\_SB.PCI0.LPCB.PS2K, 0x0406)
+                    //Notify(\_SB.PCI0.LPCB.PS2K, 0x10)
+                }      
+                \RMDT.P2 ("KEYBOARD-Q40-Local2", Local2)   
             }
             Else
             {
-                \_SB.PCI0.LPCB.H_EC.XQ50 ()
+                \_SB.PCI0.LPCB.H_EC.XQ40()
             }
         }
-
-        Method (_Q51, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+                
+        Method (_Q72, 0, NotSerialized)
         {
-            \RMDT.P1 ("KEYBOARD-Q51")
-            If (_OSI ("Darwin"))
-            {
-                If (LGEC)
-                {
-                    Notify (\_SB.PCI0.LPCB.PS2K, 0x0405)
-                    Notify (\_SB.PCI0.LPCB.PS2K, 0x20) // Reserved
-                }
-            }
-            Else
-            {
-                \_SB.PCI0.LPCB.H_EC.XQ51 ()
-            }
+            \RMDT.P1 ("KEYBOARD-Q72")
+            \_SB.PCI0.LPCB.H_EC.XQ72()
         }
     }
 }
-

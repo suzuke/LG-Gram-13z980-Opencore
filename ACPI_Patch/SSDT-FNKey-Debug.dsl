@@ -33,6 +33,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.XQ30, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ7B, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ7C, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ34, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ36, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ37, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ80, MethodObj)
@@ -42,6 +43,8 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.XQ42, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ45, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ47, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ50, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ51, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ52, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ53, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ63, MethodObj)
@@ -64,6 +67,8 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
     External (RMDT.P1__, MethodObj) 
     External (RMDT.P2__, MethodObj)
     External (BRTL, FieldUnitObj)
+    External (PWRS, IntObj)
+    External (\_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
 
     Scope (_SB.PCI0.LPCB.H_EC)
     {   
@@ -123,16 +128,20 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
             \_SB.PCI0.LPCB.H_EC.XQ7C()
         }
         //Method (_Q34, 0, NotSerialized)
-        Method (_Q36, 0, NotSerialized)
-        {
-            \RMDT.P1 ("KEYBOARD-Q36")
-            \_SB.PCI0.LPCB.H_EC.XQ36()
-        }
-        Method (_Q37, 0, NotSerialized)
-        {
-            \RMDT.P1 ("KEYBOARD-Q37")
-            \_SB.PCI0.LPCB.H_EC.XQ37()
-        }
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q34")
+        //    \_SB.PCI0.LPCB.H_EC.XQ34()
+        //}
+        //Method (_Q36, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q36")
+        //    \_SB.PCI0.LPCB.H_EC.XQ36()
+        //}
+        //Method (_Q37, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q37")
+        //    \_SB.PCI0.LPCB.H_EC.XQ37()
+        //}
         Method (_Q80, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q80")
@@ -148,12 +157,14 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q3D")
             \_SB.PCI0.LPCB.H_EC.XQ3D()
         }
-        Method (_Q40, 0, NotSerialized)
-        {
-            \RMDT.P1 ("KEYBOARD-Q40")
-            \_SB.PCI0.LPCB.H_EC.XQ40()
-            \RMDT.P2 ("KEYBOARD-Q40", BRTL)
-        }
+        //Method (_Q40, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q40")
+        //    \_SB.PCI0.LPCB.H_EC.XQ40()
+        //    \RMDT.P2 ("KEYBOARD-Q40-BRTL", BRTL)
+        //    \RMDT.P2 ("KEYBOARD-Q40-PWRS", PWRS)
+        //    \RMDT.P2 ("KEYBOARD-Q40-LBRI", \_SB.PCI0.LPCB.H_EC.LBRI) 
+        //}
         Method (_Q42, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q42")
@@ -170,7 +181,15 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
             \_SB.PCI0.LPCB.H_EC.XQ47()
         }
         //Method (_Q50, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q50")
+        //    \_SB.PCI0.LPCB.H_EC.XQ50()
+        //}
         //Method (_Q51, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q51")
+        //    \_SB.PCI0.LPCB.H_EC.XQ51()
+        //}
         Method (_Q52, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q52")
@@ -221,11 +240,11 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q6F")
             \_SB.PCI0.LPCB.H_EC.XQ6F()
         }
-        Method (_Q72, 0, NotSerialized)
-        {
-            \RMDT.P1 ("KEYBOARD-Q72")
-            \_SB.PCI0.LPCB.H_EC.XQ72()
-        }
+        //Method (_Q72, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q72")
+        //    \_SB.PCI0.LPCB.H_EC.XQ72()
+        //}
         Method (_Q73, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q73")
