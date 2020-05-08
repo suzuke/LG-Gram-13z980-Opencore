@@ -5,7 +5,7 @@
 基本上就是利用空閒時間進行，主要目的是學習 Hackintosh 的原理跟相關的知識。有任何的問題或建議都可以發 Issue 或者 pull request	。
 ### 詳細資訊
 + 系統版本 : macOS Catalina 10.15.4
-+ OpenCore版本 : 0.5.7
++ OpenCore版本 : 0.5.8
 + CPU型號 : Intel i5-8250U
 + GPU型號 : UHD Graphics 620
 + 記憶體 : OnBoard 4G + 4G DDR4 2400MHz
