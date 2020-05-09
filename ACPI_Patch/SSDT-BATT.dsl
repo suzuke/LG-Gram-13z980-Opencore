@@ -35,19 +35,6 @@ DefinitionBlock ("", "SSDT", 2, "ACDT", "BATT", 0x00000000)
     External (PL4R, FieldUnitObj)
     External (PL4W, FieldUnitObj)
     External (SSMP, IntObj)
-    External (DLMS, IntObj)
-    External (FLUX, IntObj)
-    External (LXIN, IntObj)
-    External (LXSV, IntObj)
-    External (LXOT, IntObj)
-    External (XULG, MethodObj)
-    External (_SB.PCI0.LPCB.H_EC.XQ67, MethodObj)
-    External (_SB.PCI0.LPCB.H_EC.ALSD, MethodObj)
-    External (_SB.PCI0.GFX0.AINT, MethodObj)
-    External (IGDS, FieldUnitObj)
-    External (ALSE, FieldUnitObj)
-    External (LLOW, FieldUnitObj)
-    External (LHIH, FieldUnitObj)
 
     Method (B1B2, 2, NotSerialized)
     {
@@ -66,46 +53,6 @@ DefinitionBlock ("", "SSDT", 2, "ACDT", "BATT", 0x00000000)
     {
         Arg0 = Arg2
         Arg1 = (Arg2 >> 0x08)
-    }
-    
-    Scope (\)
-    {
-        Method (GLUX, 0, NotSerialized)
-        {
-            If (_OSI ("Darwin"))
-            {
-                If ((DLMS == 0x07))
-                {
-                    Local0 = B1B2 (\_SB.PCI0.LPCB.H_EC.ALS0, \_SB.PCI0.LPCB.H_EC.ALS1)
-                }
-                ElseIf ((DLMS == 0x06))
-                {
-                    Local0 = FLUX /* \FLUX */
-                }
-                ElseIf ((DLMS == Zero))
-                {
-                    Local0 = LXIN /* \LXIN */
-                }
-                ElseIf ((DLMS == One))
-                {
-                    Local0 = LXSV /* \LXSV */
-                }
-                ElseIf ((DLMS == 0x04))
-                {
-                    Local0 = LXOT /* \LXOT */
-                }
-                Else
-                {
-                    Local0 = LXIN /* \LXIN */
-                }
-
-                Return (Local0)
-            }
-            Else
-            {
-                Return (XULG())     
-            }
-        }
     }
 
     Scope (_SB.PCI0.LPCB.H_EC)
@@ -184,29 +131,7 @@ DefinitionBlock ("", "SSDT", 2, "ACDT", "BATT", 0x00000000)
             BPV1,    8,
             Offset (0xD8),
             YC10,    8,//CYC1
-            YC11,    8,
-            Offset (0xDC),
-            ALS0,   8,//ALS
-            ALS1,   8
-        }
-        
-        Method (_Q67, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
-        {
-            If (_OSI ("Darwin"))
-            {
-                Local0 = B1B2 (\_SB.PCI0.LPCB.H_EC.ALS0, \_SB.PCI0.LPCB.H_EC.ALS1)
-                LHIH = ((Local0 >> 0x08) & 0xFF)
-                LLOW = (Local0 & 0xFF)
-                If (((ALSE == 0x02) && IGDS))
-                {
-                    \_SB.PCI0.GFX0.AINT (Zero, Local0)
-                    Notify (\_SB.PCI0.LPCB.H_EC.ALSD, 0x80) // Status Change
-                }
-            }
-            Else
-            {
-                \_SB.PCI0.LPCB.H_EC.XQ67()
-            }
+            YC11,    8
         }
     } /* Scope (_SB.PCI0.LPCB.H_EC) */
 
