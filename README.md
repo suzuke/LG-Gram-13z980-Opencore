@@ -1,3 +1,6 @@
+# 聲明
+###任何人都可免費使用，但嚴禁以此牟利收費。
+###尤其是蘋果地帶論壇，不可使用，[詳細見此](Images/garbage/garbage.md)。
 # LG-Gram-13z980-OpenCore
 ![Hackintosh](Images/os.png)
 -
