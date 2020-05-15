@@ -1307,7 +1307,7 @@
 				<key>csr-active-config</key>
 				<data>5wMAAA==</data>
 				<key>prev-lang:kbd</key>
-				<data>cnUtUlU6MjUy</data>
+				<data>emgtZW46MA==</data>
 			</dict>
 		</dict>
 		<key>Block</key>
@@ -1361,8 +1361,12 @@
 		<true/>
 		<key>Generic</key>
 		<dict>
+			<key>AdviseWindows</key>
+			<false/>
 			<key>MLB</key>
 			<string>FVF933200GUKN2RJA</string>
+			<key>ROM</key>
+			<data></data>
 			<key>SpoofVendor</key>
 			<true/>
 			<key>SystemProductName</key>
