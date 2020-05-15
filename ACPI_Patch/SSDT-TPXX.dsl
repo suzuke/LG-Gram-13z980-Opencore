@@ -33,10 +33,10 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
 
     Scope (_SB.PCI0.I2C0)
     {
+        Name (SSCN, Package () { 432, 507, 30 })
+        Name (FMCN, Package () { 72, 160, 30 })
         Device (TPDX)
         {
-            Name (SSCN, Package () { 432, 507, 30 })
-            Name (FMCN, Package () { 72, 160, 30 })
             Name (HID2, Zero)
             Name (SBFB, ResourceTemplate ()
             {
@@ -187,9 +187,11 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
                 /*If (LEqual (SDM0, Zero))
                 {
                     Return (ConcatenateResTemplate (SBFB, SBFG))
-                }*/
+                }
 
-                Return (ConcatenateResTemplate (SBFB, SBFI))
+                Return (ConcatenateResTemplate (SBFB, SBFI))*/
+                
+                Return (ConcatenateResTemplate (SBFB, SBFG))
             }
         }
     }
@@ -197,6 +199,8 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
 
     Scope (_SB.PCI0.I2C1)
     {
+        Name (SSCN, Package () { 432, 507, 30 })
+        Name (FMCN, Package () { 72, 160, 30 })
         Device (TPLX)
         {
             Name (HID2, Zero)
@@ -389,11 +393,10 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
 
     Scope (_SB.PCI0.I2C3)
     {
+        Name (SSCN, Package () { 432, 507, 30 })
+        Name (FMCN, Package () { 72, 160, 30 })
         Device (TPLX)
-        {
-            Name (SSCN, Package () { 432, 507, 30 })
-            Name (FMCN, Package () { 72, 160, 30 })
-            Name (HID2, Zero)
+        {            Name (HID2, Zero)
             Name (SBFB, ResourceTemplate ()
             {
                 I2cSerialBusV2 (0x0034, ControllerInitiated, 0x00061A80,
