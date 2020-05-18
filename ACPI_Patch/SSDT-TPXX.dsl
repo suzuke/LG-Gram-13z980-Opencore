@@ -6,6 +6,7 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
     External (_SB.PCI0.I2C3, DeviceObj)
     External (SDS0, FieldUnitObj)
     External (SDS1, FieldUnitObj)
+    External (SDS7, FieldUnitObj)
     External (PTPS, FieldUnitObj)
     External (AITS, FieldUnitObj)
     External (_SB.GNUM, MethodObj)
@@ -26,15 +27,16 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
         {
             SDS0 = 0
             PTPS = 0x02 //origin = 1
-            SDS1 = 1
+            SDS1 = 0
             AITS = 0
+            //SDS7 = 0 //FPC
         }
     }
 
     Scope (_SB.PCI0.I2C0)
     {
         Name (SSCN, Package () { 432, 507, 30 })
-        Name (FMCN, Package () { 72, 160, 30 })
+        Name (FMCN, Package () { 72, 160, 30 })   
         Device (TPDX)
         {
             Name (HID2, Zero)
@@ -364,7 +366,8 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
                 
                 If (_OSI ("Darwin"))
                 {
-                    Return (0x0F)
+                    //Return (0x0F)
+                    Return (Zero)
                 }
                 Else
                 {
@@ -396,7 +399,8 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
         Name (SSCN, Package () { 432, 507, 30 })
         Name (FMCN, Package () { 72, 160, 30 })
         Device (TPLX)
-        {            Name (HID2, Zero)
+        {   
+            Name (HID2, Zero)
             Name (SBFB, ResourceTemplate ()
             {
                 I2cSerialBusV2 (0x0034, ControllerInitiated, 0x00061A80,
@@ -471,7 +475,8 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "I2C-TPXX", 0)
                 
                 If (_OSI ("Darwin"))
                 {
-                    Return (0x0F)
+                    //Return (0x0F)
+                    Return (Zero)
                 }
                 Else
                 {
