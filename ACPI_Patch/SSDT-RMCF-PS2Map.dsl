@@ -11,7 +11,7 @@ DefinitionBlock ("", "SSDT", 2, "ACDT", "RMCF", 0)
                 "Custom PS2 Map", Package()
                 {
                     Package(){},
-                    "e05b=e037", //FN+F5 -> PrtSc
+                    "e01e=e037",
                     "e037=64", //PrtSc -> F13
                     //"19=67", //FN+F7 -> F16 multiple-screen
                 },

@@ -64,6 +64,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.XQ79, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ7A, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ90, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQFF, MethodObj)
     External (RMDT.P1__, MethodObj) 
     External (RMDT.P2__, MethodObj)
     External (BRTL, FieldUnitObj)
@@ -284,7 +285,12 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
         {
             \RMDT.P1 ("KEYBOARD-Q90")
             \_SB.PCI0.LPCB.H_EC.XQ90()
-        }  
+        }
+        //Method (_QFF, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-QFF")
+        //    \_SB.PCI0.LPCB.H_EC.XQFF()
+        //}    
     }
 }
 

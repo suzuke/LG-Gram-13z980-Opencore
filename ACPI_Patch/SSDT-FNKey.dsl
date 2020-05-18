@@ -28,6 +28,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.XQ37, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ40, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ72, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQFF, MethodObj)
     External (_SB.PCI0.LPCB.PS2K, DeviceObj)
     External (_SB.PCI9.FNOK, IntObj)
     External (_SB.PCI9.MODE, IntObj)
@@ -39,45 +40,11 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (\_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
     External (PRM0, FieldUnitObj)
     External (PRM1, FieldUnitObj)
-    External (\_SB.PCI0.LPCB.H_EC.MAP1.MAR1, IntObj)
+    External (GPEN, FieldUnitObj)
+    External (_SB.PCI0.LPCB.H_EC.MAP1.TLED, MethodObj)
 
     Scope (_SB.PCI0.LPCB.H_EC)
-    {
-        Name (PBRI, Zero)
-           
-        Method (_Q34, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
-        {
-            \RMDT.P1 ("KEYBOARD-Q34")
-            If (_OSI ("Darwin"))
-            {
-                If (LGEC)
-                {
-                    
-                    If (\_SB.PCI9.MODE == 1) //PNP0C0E
-                    {
-                        \_SB.PCI9.FNOK =1
-                        \_SB.PCI0.LPCB.H_EC.XQ34()
-                    }
-                    Else //PNP0C0D
-                    {
-                        If (\_SB.PCI9.FNOK!=1)
-                        {
-                            \_SB.PCI9.FNOK =1
-                        }
-                        Else
-                        {
-                            \_SB.PCI9.FNOK =0
-                        }
-                        Notify (\_SB.PCI0.LPCB.H_EC.LID0, 0x80)
-                    }
-                }
-            }
-            Else
-            {
-                \_SB.PCI0.LPCB.H_EC.XQ34 ()
-            }
-        }
-        
+    {        
         Method (_Q36, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q36")
@@ -148,5 +115,26 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q72")
             \_SB.PCI0.LPCB.H_EC.XQ72()
         }
+        Method (_QFF, 0, NotSerialized)
+        {
+            \RMDT.P1 ("KEYBOARD-QFF")
+            If (_OSI ("Darwin"))
+            {
+                If (GPEN == 1)
+                {
+                    GPEN = 0
+                }
+                ElseIf (GPEN == 0)
+                {
+                    GPEN = 1
+                }
+                \_SB.PCI0.LPCB.H_EC.MAP1.TLED(GPEN)
+                Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
+            }
+            Else
+            {
+                \_SB.PCI0.LPCB.H_EC.XQFF()
+            }
+        }  
     }
 }
