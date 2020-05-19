@@ -20,7 +20,6 @@
  */
 DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
 {
-    External (_SB.SLPB, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC.LID0, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC.XQ34, MethodObj)
@@ -34,14 +33,16 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI9.MODE, IntObj)
     External (RMDT.P1__, MethodObj) 
     External (RMDT.P2__, MethodObj)
-    External (_SB.PCI9.TPTS, IntObj)
-    External (_SB.PCI9.TWAK, IntObj)
     External (LGEC, IntObj)
-    External (\_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
+    External (_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
     External (PRM0, FieldUnitObj)
     External (PRM1, FieldUnitObj)
-    External (GPEN, FieldUnitObj)
     External (_SB.PCI0.LPCB.H_EC.MAP1.TLED, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.MAP1.CAUS, IntObj)
+    External (_SB.PCI0.LPCB.H_EC.MAP1.MAR0, IntObj)
+    External (_SB.PCI0.LPCB.H_EC.MAP1.MAR1, IntObj)
+    External (_SB.PCI0.LPCB.H_EC.MAP1.MAR2, IntObj)
+    External (_SB.PCI0.LPCB.H_EC.FNKN, FieldUnitObj)
 
     Scope (_SB.PCI0.LPCB.H_EC)
     {        
@@ -50,6 +51,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q36")
             \_SB.PCI0.LPCB.H_EC.XQ36()
         }
+        
         Method (_Q37, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q37")
@@ -95,12 +97,10 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 If(LEqual(Local2, 0x20))
                 {
                     Notify(\_SB.PCI0.LPCB.PS2K, 0x0405)
-                    //Notify(\_SB.PCI0.LPCB.PS2K, 0x20)
                 }
                 ElseIf(LEqual(Local2, 0x10))
                 {
                     Notify(\_SB.PCI0.LPCB.PS2K, 0x0406)
-                    //Notify(\_SB.PCI0.LPCB.PS2K, 0x10)
                 }      
                 \RMDT.P2 ("KEYBOARD-Q40-Local2", Local2)   
             }
@@ -115,21 +115,35 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q72")
             \_SB.PCI0.LPCB.H_EC.XQ72()
         }
+        
+        Name(TGLD, One)
         Method (_QFF, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-QFF")
+            //\RMDT.P2 ("KEYBOARD-QFF-CAUS", \_SB.PCI0.LPCB.H_EC.MAP1.CAUS)
+            //\RMDT.P2 ("KEYBOARD-QFF-MAR0", \_SB.PCI0.LPCB.H_EC.MAP1.MAR0)
+            //\RMDT.P2 ("KEYBOARD-QFF-MAR1", \_SB.PCI0.LPCB.H_EC.MAP1.MAR1)
+            //\RMDT.P2 ("KEYBOARD-QFF-MAR2", \_SB.PCI0.LPCB.H_EC.MAP1.MAR2)
+            \RMDT.P2 ("KEYBOARD-QFF-FNKN", \_SB.PCI0.LPCB.H_EC.FNKN)
             If (_OSI ("Darwin"))
             {
-                If (GPEN == 1)
+                If (\_SB.PCI0.LPCB.H_EC.FNKN == 0x74) //FN+F5
                 {
-                    GPEN = 0
+                    If (TGLD == 1)
+                    {
+                        TGLD = 0
+                    }
+                    ElseIf (TGLD == 0)
+                    {
+                        TGLD = 1
+                    }
+                    \_SB.PCI0.LPCB.H_EC.MAP1.TLED(TGLD)
+                    Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
                 }
-                ElseIf (GPEN == 0)
+                Else //FN+F1
                 {
-                    GPEN = 1
+                    \RMDT.P1 ("KEYBOARD-QFF-F1")
                 }
-                \_SB.PCI0.LPCB.H_EC.MAP1.TLED(GPEN)
-                Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
             }
             Else
             {
