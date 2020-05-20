@@ -47,21 +47,36 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     
     Scope (_SB.PCI0.LPCB.H_EC)
     {        
-        Method (_Q36, 0, NotSerialized)
+        Method (_Q36, 0, NotSerialized) //FN + F6
         {
             \RMDT.P1 ("KEYBOARD-Q36")
-            \_SB.PCI0.LPCB.H_EC.XQ36()
+            If (_OSI ("Darwin"))
+            {
+                Notify(\_SB.PCI0.LPCB.PS2K, 0x036A) //mac F19, Bluetooth switch
+                //Notify(\_SB.PCI0.LPCB.PS2K, 0x0368) //mac F17, Wifi switch
+            }
+            Else
+            {
+                \_SB.PCI0.LPCB.H_EC.XQ36()
+            }
         }
         
-        Method (_Q37, 0, NotSerialized)
+        Method (_Q37, 0, NotSerialized) //FN + F7
         {
             \RMDT.P1 ("KEYBOARD-Q37")
-            \_SB.PCI0.LPCB.H_EC.XQ37()
+            If (_OSI ("Darwin"))
+            {
+                Notify(\_SB.PCI0.LPCB.PS2K, 0x0367) //mac F16
+            }
+            Else
+            {
+                \_SB.PCI0.LPCB.H_EC.XQ37()
+            }
         }
         
         Name(BRI0, 0)
         Name(BRI1, 0)
-        Method (_Q40, 0, NotSerialized)
+        Method (_Q40, 0, NotSerialized) //FN + F2, FN + F3
         {
             \RMDT.P1 ("KEYBOARD-Q40")
             If (_OSI ("Darwin"))
@@ -124,7 +139,14 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
         Method (_Q72, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q72")
-            \_SB.PCI0.LPCB.H_EC.XQ72()
+            if (_OSI("Darwin"))
+            {
+                Notify(\_SB.PCI0.LPCB.PS2K, 0x0369) //mac F18, sun
+            }
+            Else
+            {
+                \_SB.PCI0.LPCB.H_EC.XQ72()
+            }
         }
         
         Name(TGLD, One)
