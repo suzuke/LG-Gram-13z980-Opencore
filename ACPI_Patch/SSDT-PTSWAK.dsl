@@ -30,8 +30,7 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "PTSWAK", 0)
         {
             Name (_ADR, Zero)
             Name (FNOK, Zero)
-            Name (MODE, Zero)
-            //
+            Name (MODE, One)
             Name (TPTS, Zero)
             Name (TWAK, Zero)
             Method (_STA, 0, NotSerialized)
@@ -54,7 +53,7 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "PTSWAK", 0)
         {
             \_SB.PCI9.TPTS = Arg0
             
-            if(\_SB.PCI9.FNOK ==1)
+            If (\_SB.PCI9.FNOK == 1)
             {
                 Arg0 = 3
             }
@@ -77,9 +76,9 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "PTSWAK", 0)
         {
             \_SB.PCI9.TWAK = Arg0
             
-            if(\_SB.PCI9.FNOK ==1)
+            If (\_SB.PCI9.FNOK == 1)
             {
-                \_SB.PCI9.FNOK =0
+                \_SB.PCI9.FNOK = 0
                 Arg0 = 3
             }
             If (CondRefOf(EXT3))

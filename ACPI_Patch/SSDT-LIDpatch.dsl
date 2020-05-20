@@ -10,20 +10,28 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "LIDpatch", 0)
     External(_SB.PCI0.LPCB.H_EC.LID0, DeviceObj)
     External(_SB.PCI0.LPCB.H_EC.LID0.XLID, MethodObj)
     External(_SB.PCI9.FNOK, IntObj)
+    External (LGEC, IntObj)
+    
     Scope (_SB.PCI0.LPCB.H_EC.LID0)
     {
         Method (_LID, 0, NotSerialized)
         {
             If (_OSI ("Darwin"))
             {
-                If (\_SB.PCI9.FNOK == 1)
+                If (LGEC)
                 {
-                    Return (0)
+                    If (\_SB.PCI9.FNOK == 1)
+                    {
+                        Return (0)
+                    }
+                    Else
+                    {
+                        Return (\_SB.PCI0.LPCB.H_EC.LID0.XLID())
+                    }
                 }
-                Else
-                {
-                    Return (\_SB.PCI0.LPCB.H_EC.LID0.XLID())
-                }
+                
+                Return (1)
+                
             }
             Else
             {

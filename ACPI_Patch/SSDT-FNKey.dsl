@@ -36,17 +36,44 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (RMDT.P2__, MethodObj)
     External (LGEC, IntObj)
     External (_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
-    External (PRM0, FieldUnitObj)
-    External (PRM1, FieldUnitObj)
     External (_SB.PCI0.LPCB.H_EC.MAP1.TLED, MethodObj)
-    External (_SB.PCI0.LPCB.H_EC.MAP1.CAUS, IntObj)
-    External (_SB.PCI0.LPCB.H_EC.MAP1.MAR0, IntObj)
-    External (_SB.PCI0.LPCB.H_EC.MAP1.MAR1, IntObj)
-    External (_SB.PCI0.LPCB.H_EC.MAP1.MAR2, IntObj)
     External (_SB.PCI0.LPCB.H_EC.FNKN, FieldUnitObj)
-    
+        
     Scope (_SB.PCI0.LPCB.H_EC)
-    {        
+    {
+        Method (_Q34, 0, NotSerialized) //FN + F4
+        {
+            \RMDT.P1 ("KEYBOARD-Q34")
+            If (_OSI ("Darwin"))
+            {
+                If (LGEC)
+                {
+                    
+                    If (\_SB.PCI9.MODE == 1) //PNP0C0E
+                    {
+                        \_SB.PCI9.FNOK =1
+                        \_SB.PCI0.LPCB.H_EC.XQ34()
+                    }
+                    Else //PNP0C0D
+                    {
+                        If (\_SB.PCI9.FNOK != 1)
+                        {
+                            \_SB.PCI9.FNOK = 1
+                        }
+                        Else
+                        {
+                            \_SB.PCI9.FNOK = 0
+                        }
+                        Notify (\_SB.PCI0.LPCB.H_EC.LID0, 0x80)
+                    }
+                }
+            }
+            Else
+            {
+                \_SB.PCI0.LPCB.H_EC.XQ34()
+            }
+        }
+                
         Method (_Q36, 0, NotSerialized) //FN + F6
         {
             \RMDT.P1 ("KEYBOARD-Q36")
