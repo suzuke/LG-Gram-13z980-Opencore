@@ -16,7 +16,7 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "LIDpatch", 0)
         {
             If (_OSI ("Darwin"))
             {
-                if(\_SB.PCI9.FNOK==1)
+                If (\_SB.PCI9.FNOK == 1)
                 {
                     Return (0)
                 }

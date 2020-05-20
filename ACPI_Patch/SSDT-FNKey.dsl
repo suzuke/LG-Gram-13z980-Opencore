@@ -26,6 +26,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.XQ36, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ37, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ40, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ63, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ72, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQFF, MethodObj)
     External (_SB.PCI0.LPCB.PS2K, DeviceObj)
@@ -43,7 +44,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.MAP1.MAR1, IntObj)
     External (_SB.PCI0.LPCB.H_EC.MAP1.MAR2, IntObj)
     External (_SB.PCI0.LPCB.H_EC.FNKN, FieldUnitObj)
-
+    
     Scope (_SB.PCI0.LPCB.H_EC)
     {        
         Method (_Q36, 0, NotSerialized)
@@ -58,20 +59,22 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \_SB.PCI0.LPCB.H_EC.XQ37()
         }
         
+        Name(BRI0, 0)
+        Name(BRI1, 0)
         Method (_Q40, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q40")
             If (_OSI ("Darwin"))
             {
                 Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
-                Store(PRM0, Local1)
-                Store(PRM1, Local2)
+                Store(BRI0, Local1)
+                Store(BRI1, Local2)
                 
                 \RMDT.P2("KEYBOARD-Q40-Local0", Local0)
                 \RMDT.P2("KEYBOARD-Q40-Local1", Local1)
                 \RMDT.P2("KEYBOARD-Q40-Local2", Local2)
                                 
-                If(LEqual(Local0,Local1)){
+                If(LEqual(Local0,Local1)){ //Reach bound
                     If(LEqual(Local0, 0x80))
                     {
                         Store(0x20,Local2)
@@ -91,8 +94,8 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                     }
                 }   
                              
-                Store(Local0,PRM0)
-                Store(Local2,PRM1)
+                Store(Local0, BRI0)
+                Store(Local2, BRI1)
                 
                 If(LEqual(Local2, 0x20))
                 {
@@ -109,7 +112,15 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 \_SB.PCI0.LPCB.H_EC.XQ40()
             }
         }
-                
+        Method (_Q63, 0, NotSerialized)
+        {
+            \RMDT.P1 ("KEYBOARD-Q63")
+            \_SB.PCI0.LPCB.H_EC.XQ63()
+            If (_OSI("Darwin"))
+            {
+                Store(\_SB.PCI0.LPCB.H_EC.LBRI, BRI0)
+            }
+        }        
         Method (_Q72, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q72")
@@ -140,9 +151,11 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                     \_SB.PCI0.LPCB.H_EC.MAP1.TLED(TGLD)
                     Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
                 }
-                Else //FN+F1
+                Else //0x70, FN+F1
                 {
                     \RMDT.P1 ("KEYBOARD-QFF-F1")
+                    Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
+                    \RMDT.P2("KEYBOARD-QFF-Local0", Local0)
                 }
             }
             Else

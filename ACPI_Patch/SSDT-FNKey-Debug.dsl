@@ -201,11 +201,11 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q53")
             \_SB.PCI0.LPCB.H_EC.XQ53()
         }
-        Method (_Q63, 0, NotSerialized)
-        {
-            \RMDT.P1 ("KEYBOARD-Q63")
-            \_SB.PCI0.LPCB.H_EC.XQ63()
-        }
+        //Method (_Q63, 0, NotSerialized)
+        //{
+        //    \RMDT.P1 ("KEYBOARD-Q63")
+        //    \_SB.PCI0.LPCB.H_EC.XQ63()
+        //}
         Method (_Q64, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q64")
