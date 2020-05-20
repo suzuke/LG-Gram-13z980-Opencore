@@ -13,6 +13,7 @@ DefinitionBlock ("", "SSDT", 2, "ACDT", "RMCF", 0)
                     Package(){},
                     "e01e=e037",
                     "e037=64", //PrtSc -> F13
+                    "46=e01f", //FN + PrtSc (ScrLk) -> Dead key
                     //"19=67", //FN+F7 -> F16 multiple-screen
                 },
                 
