@@ -43,3 +43,12 @@
 ### 參考
 ![CPU](Images/cpu.png)
 ![GPU](Images/gpu.png)
+
+### 致謝
++ [OC-little](https://github.com/daliansky/OC-little) 提供了非常多SSDT修正的參考。
++ [OpenCore-Desktop-Guide](https://dortania.github.io/OpenCore-Desktop-Guide/) Opencore 設定相關參考。
++ [ShiningXu](https://github.com/ShiningXu/LG-Gram-macOS) LG Gram hackintosh 啟發。
++ [電池顯示修正教學](https://xstar-dev.github.io/hackintosh_advanced/Guide_For_Battery_Hotpatch.html#%E5%89%8D%E8%A8%80)
++ [Sukka](https://blog.skk.moe/post/ssdt-map-fn-shortcuts/) FN Key 修正教學。
++ 當然還有 [acidanthera](https://github.com/acidanthera) Opencore團隊。
++ 若有遺漏煩請見諒。
