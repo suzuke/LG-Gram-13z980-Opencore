@@ -5,7 +5,7 @@
 ![Hackintosh](Images/os.png)
 -
 ### 前言
-基本上就是利用空閒時間進行，主要目的是學習 Hackintosh 的原理跟相關的知識。
+基本上就是利用空閒時間進行，主要目的是學習 Hackintosh 的原理跟相關的知識。  
 有任何的問題或建議都可以發 Issue 或者 pull request。
 ### 詳細資訊
 + 系統版本 ： macOS Catalina 10.15.5
@@ -35,7 +35,7 @@
 	7.  FN + F6 設定為 F19 (自行用第三方軟體或者偏好設定為**無線網卡**開關)
 	8.  FN + F7 設定為 F16 (自行用第三方軟體或者偏好設定為**多螢幕**開關)
 	9.  FN + F9 設定為 F18 (自行用第三方軟體或者偏好設定為**夜覽模式**開關) 
-	10. N + PrtSc (ScrLk) 目前尚未綁定功能
+	10. FN + PrtSc (ScrLk) 目前尚未綁定功能
 	11.  PrtSc 設定為系統 F13 (自行用第三方軟體或者偏好設定為**全螢幕截圖**) 
 + 觸控板正常，使用 [VoodooI2C](https://github.com/VoodooI2C/VoodooI2C) 驅動， 支援多指手勢，也沒有常見的單指觸控失效問題，但偶爾會有開機過程中無法正常載入的問題，待查找問題。
 + 讀卡機失效，嘗試過 [Sinetek-rtsx](https://github.com/sinetek/Sinetek-rtsx)，原本10.15.3 下似乎可用，10.15.4 下插入 SD 卡後會直接導致自動重啟 (Kernel Panic)，所以目前直接移除Sinetek-rtsx，待收集資訊，再評估有無修復的可能。
