@@ -8,14 +8,16 @@
 基本上就是利用空閒時間進行，主要目的是學習 Hackintosh 的原理跟相關的知識。
 有任何的問題或建議都可以發 Issue 或者 pull request。
 ### 詳細資訊
-+ 系統版本 : macOS Catalina 10.15.5
++ 系統版本 ： macOS Catalina 10.15.5
 + OpenCore版本 : 0.5.8
-+ CPU型號 : Intel i5-8250U
-+ GPU型號 : UHD Graphics 620
-+ 記憶體 : OnBoard 4G + 4G DDR4 2400MHz
-+ SSD硬碟 : ADATA SX8200PNP NVME SSD 256G
-+ 內建音效卡 : Conexant CX8200
-+ 無線網卡 : Intel AC8265 (BCM94360CS2)
++ 產品名稱 ： 13z980-A.AAS5U1
++  BIOS 版本： K22C0254 X64
++ CPU型號 ： Intel i5-8250U
++ GPU型號 ： UHD Graphics 620
++ 記憶體 ： OnBoard 4G + 4G DDR4 2400MHz
++ SSD硬碟 ： ADATA SX8200PNP NVME SSD 256G
++ 內建音效卡 ： Conexant CX8200
++ 無線網卡 ： Intel AC8265 (BCM94360CS2)
 
 ### 事前準備
 + 修改 BIOS 設定 (開機時按下F2進入 BIOS 後，Ctrl + Alt + F7 開啟 BIOS 隱藏選項， 感謝 **as695336480** 提供：[出處](https://github.com/capricornlee/LG-Gram13-Z990/issues/7#issue-624133249) )
