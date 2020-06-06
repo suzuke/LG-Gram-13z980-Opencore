@@ -2379,17 +2379,17 @@
 			<key>AdviseWindows</key>
 			<false/>
 			<key>MLB</key>
-			<string>FVF0513064N00008C</string>
+			<string>C02806404GUJH4R1M</string>
 			<key>ROM</key>
 			<data></data>
 			<key>SpoofVendor</key>
 			<true/>
 			<key>SystemProductName</key>
-			<string>MacBookAir8,2</string>
+			<string>MacBookPro15,2</string>
 			<key>SystemSerialNumber</key>
-			<string>FVFDVKZNLYWM</string>
+			<string>C02W7BY8JHCC</string>
 			<key>SystemUUID</key>
-			<string>C3B142DE-205B-4B7F-8267-CBCCE17CAB33</string>
+			<string>E1A592A2-71B4-4479-8369-D766DA111953</string>
 		</dict>
 		<key>UpdateDataHub</key>
 		<true/>
