@@ -2137,7 +2137,7 @@
 			<key>AppleXcpmCfgLock</key>
 			<false/>
 			<key>AppleXcpmExtraMsrs</key>
-			<true/>
+			<false/>
 			<key>AppleXcpmForceBoost</key>
 			<false/>
 			<key>CustomSMBIOSGuid</key>
