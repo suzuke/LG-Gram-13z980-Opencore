@@ -203,8 +203,9 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 Else //0x70, FN+F1
                 {
                     \RMDT.P1 ("KEYBOARD-QFF-F1")
-                    Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
-                    \RMDT.P2("KEYBOARD-QFF-Local0", Local0)
+                    //Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
+                    //\RMDT.P2("KEYBOARD-QFF-Local0", Local0)
+                    Notify(\_SB.PCI0.LPCB.PS2K, 0x0368)
                 }
             }
             Else

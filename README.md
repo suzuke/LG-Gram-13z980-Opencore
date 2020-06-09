@@ -22,7 +22,7 @@
 ### 事前準備
 + 修改 BIOS 設定 (開機時按下F2進入 BIOS 後，Ctrl + Alt + F7 開啟 BIOS 隱藏選項， 感謝 **as695336480** 提供：[出處](https://github.com/capricornlee/LG-Gram13-Z990/issues/7#issue-624133249))   
 + 以下由 **linGinc** 整理提供，感謝！
-	1. BIOS-Main-Boot Features: **CMS Support [No]**, **Legacy Boot [Disabled]**
+	1. BIOS-Main-Boot Features: **CMS Support [No]**, **Fast Boot [Disabled]**
 	2. BIOS-Advanced-Intel Advanced Menu-Power&Performance-CPU Power Management Control: **CFG Lock [Disabled]**
 	3. BIOS-Advanced-System Agent(SA) Configuration: **VT-d [Disabled]**,  **Above 4GB MMIO BIOS assignment [Enabled]**
 	4. BIOS-Advanced-System Agent(SA) Configuration-Graphics Configuration: **DVMT Pre-Allocated [64M]**
@@ -35,20 +35,21 @@
 	3. 觸控板開關 FN + F5 正常，指示燈也正常。
 	4. 鍵盤燈開關 FN + F8 正常
 	5. 音量控制 FN + F10, FN + F11, FN + F12 正常
-	6. FN + F1 目前尚未綁定功能
+	6. FN + F1 設定為 F17 (自行用第三方軟體或者偏好設定為**系統偏好設定**開關)
 	7.  FN + F6 設定為 F19 (自行用第三方軟體或者偏好設定為**無線網卡**開關)
 	8.  FN + F7 設定為 F16 (自行用第三方軟體或者偏好設定為**多螢幕**開關)
 	9.  FN + F9 設定為 F18 (自行用第三方軟體或者偏好設定為**夜覽模式**開關) 
 	10. FN + PrtSc (ScrLk) 目前尚未綁定功能
 	11.  PrtSc 設定為系統 F13 (自行用第三方軟體或者偏好設定為**全螢幕截圖**) 
-+ 觸控板正常，使用 [VoodooI2C](https://github.com/VoodooI2C/VoodooI2C) 驅動， 支援多指手勢，也沒有常見的單指觸控失效問題，但偶爾會有開機過程中無法正常載入的問題，待查找問題。
-+ 讀卡機正常，使用 **cholonam** 修改過後 [Sinetek-rtsx](https://github.com/cholonam/Sinetek-rtsx)版本。
++ 觸控板正常，使用 [VoodooI2C](https://github.com/VoodooI2C/VoodooI2C) 驅動 (自行編譯了延長Timeout時間的版本，解決偶爾開機無法正常載入問題)。
 + 觸控螢幕失效，目前嘗試屏蔽原有 ACPI 中的 TPL裝置，定製一個新的TPX裝置使用，待修復。
-+ 內建藍芽顯示可用，但測試後評估為失效，原本使用 [IntelBluetoothFirmware](https://github.com/zxystd/IntelBluetoothFirmware) ，雖然可用，但是測試發現偶爾會導致開機緩慢或卡死，有穩定性的疑慮故暫時先移除，待詳細測試。
++ 讀卡機正常，使用 **cholonam** 修改過後 [Sinetek-rtsx](https://github.com/cholonam/Sinetek-rtsx)版本。
++ 內建藍芽可用，使用 [IntelBluetoothFirmware](https://github.com/zxystd/IntelBluetoothFirmware) ，有 [相關資訊](https://github.com/daliansky/XiaoMi-Pro-Hackintosh/wiki/Work-Around-with-Bluetooth) 指出有導致睡眠相關問題，但我測試是正常的。
 + 內建無線網卡失效，目前在各方都有一些對於 Intel Wifi 網卡的嘗試 ( [itlwm](https://github.com/zxystd/itlwm), [AppleIntelWifi](https://github.com/AppleIntelWifi/adapter) )，不過都還達不到可以正常使用的階段，目前建議先以第二個M2插槽轉接 BCM94360CS2 免驅卡使用。
 + 睡眠 / 喚醒，測試正常，睡眠狀況下觀察耗電量也是極低。
 + Hdmi 與耳機輸出都正常，也支援多螢幕顯示。
 + USB & Type-C 正常(沒有定製 USB，目前使用上似乎也沒有問題)。
++ 指紋失效，待研究。
 
 ### 參考
 ![CPU](Images/cpu.png)
