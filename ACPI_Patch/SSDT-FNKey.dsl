@@ -38,6 +38,10 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
     External (_SB.PCI0.LPCB.H_EC.MAP1.TLED, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.FNKN, FieldUnitObj)
+    
+    External (_SB.PCI0.LPCB.H_EC.MAP1.WMAB, MethodObj)
+    External (_SB.PCI0.LPCB.H_EC.RDMD, FieldUnitObj)
+    External (_SB.PCI0.LPCB.H_EC.TPDU, FieldUnitObj)
         
     Scope (_SB.PCI0.LPCB.H_EC)
     {
@@ -163,12 +167,20 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 Store(\_SB.PCI0.LPCB.H_EC.LBRI, BRI0)
             }
         }        
-        Method (_Q72, 0, NotSerialized)
+        Method (_Q72, 0, NotSerialized) //FN + F9
         {
             \RMDT.P1 ("KEYBOARD-Q72")
-            if (_OSI("Darwin"))
+            If (_OSI("Darwin"))
             {
-                Notify(\_SB.PCI0.LPCB.PS2K, 0x0369) //mac F18, sun
+                If (\_SB.PCI0.LPCB.H_EC.RDMD == 1)
+                {
+                    \_SB.PCI0.LPCB.H_EC.RDMD = 0
+                }
+                Else
+                {
+                    \_SB.PCI0.LPCB.H_EC.RDMD = 1
+                }
+                Notify(\_SB.PCI0.LPCB.PS2K, 0x0369) //mac F18
             }
             Else
             {
@@ -180,14 +192,10 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
         Method (_QFF, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-QFF")
-            //\RMDT.P2 ("KEYBOARD-QFF-CAUS", \_SB.PCI0.LPCB.H_EC.MAP1.CAUS)
-            //\RMDT.P2 ("KEYBOARD-QFF-MAR0", \_SB.PCI0.LPCB.H_EC.MAP1.MAR0)
-            //\RMDT.P2 ("KEYBOARD-QFF-MAR1", \_SB.PCI0.LPCB.H_EC.MAP1.MAR1)
-            //\RMDT.P2 ("KEYBOARD-QFF-MAR2", \_SB.PCI0.LPCB.H_EC.MAP1.MAR2)
             \RMDT.P2 ("KEYBOARD-QFF-FNKN", \_SB.PCI0.LPCB.H_EC.FNKN)
             If (_OSI ("Darwin"))
             {
-                If (\_SB.PCI0.LPCB.H_EC.FNKN == 0x74) //FN+F5
+                If (\_SB.PCI0.LPCB.H_EC.FNKN == 0x74) //FN + F5
                 {
                     If (TGLD == 1)
                     {
@@ -199,12 +207,11 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                     }
                     \_SB.PCI0.LPCB.H_EC.MAP1.TLED(TGLD)
                     Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
+                    //\RMDT.P2("TPAD", \_SB.PCI0.LPCB.H_EC.MAP1.WMAB(0x30, One, TGLD))
                 }
-                Else //0x70, FN+F1
+                Else //0x70, FN + F1
                 {
                     \RMDT.P1 ("KEYBOARD-QFF-F1")
-                    //Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
-                    //\RMDT.P2("KEYBOARD-QFF-Local0", Local0)
                     Notify(\_SB.PCI0.LPCB.PS2K, 0x0368)
                 }
             }
@@ -213,5 +220,33 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 \_SB.PCI0.LPCB.H_EC.XQFF()
             }
         }  
+    }
+
+    External(_SB.PCI0.LPCB.PS2K, DeviceObj)
+    Scope (_SB.PCI0.LPCB.PS2K)
+    {
+        Name (RMCF,Package() 
+        {
+            "Keyboard", Package()
+            {
+                "Custom PS2 Map", Package()
+                {
+                    Package(){},
+                    "e01e=e037",
+                    "e037=64", //PrtSc -> F13
+                    "46=e01f", //FN + PrtSc (ScrLk) -> Dead key
+                    //"19=67", //FN+F7 -> F16 multiple-screen
+                },
+                
+                //or
+                /*
+                "Custom ADB Map", Package()
+                {
+                    Package(){},
+                    "1e=06",
+                }
+                */
+            },
+        })
     }
 }
