@@ -1,23 +1,32 @@
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20200110 (64-bit version)
- * Copyright (c) 2000 - 2020 Intel Corporation
- * 
- * Disassembling to symbolic ASL+ operators
- *
- * Disassembly of iASLrpyTPt.aml, Sun Apr 19 02:35:55 2020
- *
- * Original Table Header:
- *     Signature        "SSDT"
- *     Length           0x00000155 (341)
- *     Revision         0x02
- *     Checksum         0xDB
- *     OEM ID           "OCLT"
- *     OEM Table ID     "FNKey"
- *     OEM Revision     0x00000000 (0)
- *     Compiler ID      "INTL"
- *     Compiler Version 0x20200110 (538968336)
- */
+
+#define GOV_TLED        0x2020008
+#define WM_GET          1
+#define WM_SET          2
+#define WM_KEY_LIGHT    0x400
+#define WM_TLED         0x404
+#define WM_FN_LOCK      0x407
+#define WM_BATT_LIMIT   0x61
+#define WM_READER_MODE  0xBF
+#define WM_FAN_MODE	   0x33
+#define WMBB_USB_CHARGE 0x10B
+#define WMBB_BATT_LIMIT 0x10C
+
+#define KEY_FNF1        0x70
+#define KEY_FNF5        0x74
+
+#define KEY_F14         0x0405
+#define KEY_F15         0x0406
+#define KEY_F16         0x0367
+#define KEY_F17         0x0368
+#define KEY_F18         0x0369
+#define KEY_F19         0x036A
+
+#define BRIGHTNESS_DOWN 0x20
+#define BRIGHTNESS_UP   0x10
+
+#define PNP0C0E_MODE    1
+#define PNP0C0D_MODE    0
+
 DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
 {
     External (_SB.PCI0.LPCB.H_EC, DeviceObj)
@@ -36,12 +45,11 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (RMDT.P2__, MethodObj)
     External (LGEC, IntObj)
     External (_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
-    External (_SB.PCI0.LPCB.H_EC.MAP1.TLED, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.FNKN, FieldUnitObj)
     
-    External (_SB.PCI0.LPCB.H_EC.MAP1.WMAB, MethodObj)
+    External (_SB.GGOV, MethodObj)
+    External (XINI.WMAB, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.RDMD, FieldUnitObj)
-    External (_SB.PCI0.LPCB.H_EC.TPDU, FieldUnitObj)
         
     Scope (_SB.PCI0.LPCB.H_EC)
     {
@@ -52,10 +60,9 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             {
                 If (LGEC)
                 {
-                    
-                    If (\_SB.PCI9.MODE == 1) //PNP0C0E
+                    If (\_SB.PCI9.MODE == PNP0C0E_MODE)
                     {
-                        \_SB.PCI9.FNOK =1
+                        \_SB.PCI9.FNOK = 1
                         \_SB.PCI0.LPCB.H_EC.XQ34()
                     }
                     Else //PNP0C0D
@@ -83,8 +90,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q36")
             If (_OSI ("Darwin"))
             {
-                Notify(\_SB.PCI0.LPCB.PS2K, 0x036A) //mac F19, Bluetooth switch
-                //Notify(\_SB.PCI0.LPCB.PS2K, 0x0368) //mac F17, Wifi switch
+                Notify(\_SB.PCI0.LPCB.PS2K, KEY_F19)
             }
             Else
             {
@@ -97,7 +103,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             \RMDT.P1 ("KEYBOARD-Q37")
             If (_OSI ("Darwin"))
             {
-                Notify(\_SB.PCI0.LPCB.PS2K, 0x0367) //mac F16
+                Notify(\_SB.PCI0.LPCB.PS2K, KEY_F16)
             }
             Else
             {
@@ -115,11 +121,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
                 Store(BRI0, Local1)
                 Store(BRI1, Local2)
-                
-                \RMDT.P2("KEYBOARD-Q40-Local0", Local0)
-                \RMDT.P2("KEYBOARD-Q40-Local1", Local1)
-                \RMDT.P2("KEYBOARD-Q40-Local2", Local2)
-                                
+                                                
                 If(LEqual(Local0,Local1)){ //Reach bound
                     If(LEqual(Local0, 0x80))
                     {
@@ -143,21 +145,21 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 Store(Local0, BRI0)
                 Store(Local2, BRI1)
                 
-                If(LEqual(Local2, 0x20))
+                If(LEqual(Local2, BRIGHTNESS_DOWN))
                 {
-                    Notify(\_SB.PCI0.LPCB.PS2K, 0x0405)
+                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F14)
                 }
-                ElseIf(LEqual(Local2, 0x10))
+                ElseIf(LEqual(Local2, BRIGHTNESS_UP))
                 {
-                    Notify(\_SB.PCI0.LPCB.PS2K, 0x0406)
-                }      
-                \RMDT.P2 ("KEYBOARD-Q40-Local2", Local2)   
+                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F15)
+                }
             }
             Else
             {
                 \_SB.PCI0.LPCB.H_EC.XQ40()
             }
         }
+        
         Method (_Q63, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q63")
@@ -166,21 +168,16 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             {
                 Store(\_SB.PCI0.LPCB.H_EC.LBRI, BRI0)
             }
-        }        
+        }
+                
         Method (_Q72, 0, NotSerialized) //FN + F9
         {
             \RMDT.P1 ("KEYBOARD-Q72")
             If (_OSI("Darwin"))
             {
-                If (\_SB.PCI0.LPCB.H_EC.RDMD == 1)
-                {
-                    \_SB.PCI0.LPCB.H_EC.RDMD = 0
-                }
-                Else
-                {
-                    \_SB.PCI0.LPCB.H_EC.RDMD = 1
-                }
-                Notify(\_SB.PCI0.LPCB.PS2K, 0x0369) //mac F18
+                Local0 = \_SB.PCI0.LPCB.H_EC.RDMD
+                \_SB.PCI0.LPCB.H_EC.RDMD = !Local0
+                Notify(\_SB.PCI0.LPCB.PS2K, KEY_F18)
             }
             Else
             {
@@ -188,31 +185,21 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
             }
         }
         
-        Name(TGLD, One)
         Method (_QFF, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-QFF")
-            \RMDT.P2 ("KEYBOARD-QFF-FNKN", \_SB.PCI0.LPCB.H_EC.FNKN)
             If (_OSI ("Darwin"))
             {
-                If (\_SB.PCI0.LPCB.H_EC.FNKN == 0x74) //FN + F5
+                Local0 = \_SB.PCI0.LPCB.H_EC.FNKN
+                If (Local0 == KEY_FNF5)
                 {
-                    If (TGLD == 1)
-                    {
-                        TGLD = 0
-                    }
-                    ElseIf (TGLD == 0)
-                    {
-                        TGLD = 1
-                    }
-                    \_SB.PCI0.LPCB.H_EC.MAP1.TLED(TGLD)
+                    Local1 = \_SB.GGOV(GOV_TLED)
+                    \XINI.WMAB(WM_TLED, WM_SET, !Local1)
                     Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
-                    //\RMDT.P2("TPAD", \_SB.PCI0.LPCB.H_EC.MAP1.WMAB(0x30, One, TGLD))
                 }
-                Else //0x70, FN + F1
+                ElseIf (Local0 == KEY_FNF1)
                 {
-                    \RMDT.P1 ("KEYBOARD-QFF-F1")
-                    Notify(\_SB.PCI0.LPCB.PS2K, 0x0368)
+                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F17)
                 }
             }
             Else
@@ -235,7 +222,6 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                     "e01e=e037",
                     "e037=64", //PrtSc -> F13
                     "46=e01f", //FN + PrtSc (ScrLk) -> Dead key
-                    //"19=67", //FN+F7 -> F16 multiple-screen
                 },
                 
                 //or
