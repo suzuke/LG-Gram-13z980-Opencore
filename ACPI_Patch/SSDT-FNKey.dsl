@@ -23,6 +23,8 @@
 
 #define BRIGHTNESS_DOWN 0x20
 #define BRIGHTNESS_UP   0x10
+#define BRIGHTNESS_MAX  0x68
+#define BRIGHTNESS_MIN  0x60
 
 #define PNP0C0E_MODE    1
 #define PNP0C0D_MODE    0
@@ -45,21 +47,26 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (RMDT.P2__, MethodObj)
     External (LGEC, IntObj)
     External (_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
+    External (_SB.PCI0.LPCB.H_EC.LBRR, FieldUnitObj)
     External (_SB.PCI0.LPCB.H_EC.FNKN, FieldUnitObj)
     
     External (_SB.GGOV, MethodObj)
     External (XINI.WMAB, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.RDMD, FieldUnitObj)
+    
+    External (\_SB.PCI0.DPLY._BCL, MethodObj) //_BCL: Brightness Control Levels
+    External (\_SB.PCI0.DPLY._BCM, MethodObj) // _BCM: Brightness Control Method
+    External (\_SB.PCI0.DPLY._BQC, MethodObj) // _BQC: Brightness Query Current
         
     Scope (_SB.PCI0.LPCB.H_EC)
     {
         Method (_Q34, 0, NotSerialized) //FN + F4
         {
-            \RMDT.P1 ("KEYBOARD-Q34")
             If (_OSI ("Darwin"))
             {
                 If (LGEC)
                 {
+                    \RMDT.P1 ("KEYBOARD-Q34")
                     If (\_SB.PCI9.MODE == PNP0C0E_MODE)
                     {
                         \_SB.PCI9.FNOK = 1
@@ -87,10 +94,13 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
                 
         Method (_Q36, 0, NotSerialized) //FN + F6
         {
-            \RMDT.P1 ("KEYBOARD-Q36")
             If (_OSI ("Darwin"))
             {
-                Notify(\_SB.PCI0.LPCB.PS2K, KEY_F19)
+                If (LGEC)
+                {
+                    \RMDT.P1 ("KEYBOARD-Q36")
+                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F19)
+                }
             }
             Else
             {
@@ -100,10 +110,13 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
         
         Method (_Q37, 0, NotSerialized) //FN + F7
         {
-            \RMDT.P1 ("KEYBOARD-Q37")
             If (_OSI ("Darwin"))
             {
-                Notify(\_SB.PCI0.LPCB.PS2K, KEY_F16)
+                If (LGEC)
+                {
+                    \RMDT.P1 ("KEYBOARD-Q37")
+                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F16)
+                }
             }
             Else
             {
@@ -115,43 +128,54 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
         Name(BRI1, 0)
         Method (_Q40, 0, NotSerialized) //FN + F2, FN + F3
         {
-            \RMDT.P1 ("KEYBOARD-Q40")
             If (_OSI ("Darwin"))
             {
-                Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
-                Store(BRI0, Local1)
-                Store(BRI1, Local2)
+                If (LGEC)
+                {
+                    \RMDT.P1 ("KEYBOARD-Q40")
+                    //\RMDT.P2 ("KEYBOARD-Q40-Brightness Control Levels",  \_SB.PCI0.DPLY._BCL)
+                    \RMDT.P2 ("KEYBOARD-Q40-Brightness Query Current",  \_SB.PCI0.DPLY._BQC)
+                    Store(\_SB.PCI0.LPCB.H_EC.LBRI, Local0)
+                    Store(BRI0, Local1)
+                    Store(BRI1, Local2)
                                                 
-                If(LEqual(Local0,Local1)){ //Reach bound
-                    If(LEqual(Local0, 0x80))
+                    If (LEqual(Local0, Local1)) //Reach Bound
                     {
-                        Store(0x20,Local2)
+                        If (LEqual(Local0, BRIGHTNESS_MIN))
+                        {
+                            Store(BRIGHTNESS_DOWN, Local2)
+                        }
+                        Else
+                        {
+                            If (LEqual(Local0, BRIGHTNESS_MAX))
+                            {
+                                Store(BRIGHTNESS_UP, Local2)
+                            }
+                        }
                     }
                     Else
                     {
-                        If(LEqual(Local0, 0x88))
-                        {
-                            Store(0x10,Local2)
+                        If (LGreater(Local0, Local1))
+                        {                    
+                            Store(BRIGHTNESS_UP ,Local2)
                         }
-                    }
-                }Else{
-                    If(LGreater(Local0,Local1)){                    
-                        Store(0x10,Local2)
-                    }Else{
-                        Store(0x20,Local2)                
-                    }
-                }   
+                        Else
+                        {
+                            Store(BRIGHTNESS_DOWN, Local2)                
+                        }
+                    }   
                              
-                Store(Local0, BRI0)
-                Store(Local2, BRI1)
+                    Store(Local0, BRI0)
+                    Store(Local2, BRI1)
                 
-                If(LEqual(Local2, BRIGHTNESS_DOWN))
-                {
-                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F14)
-                }
-                ElseIf(LEqual(Local2, BRIGHTNESS_UP))
-                {
-                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F15)
+                    If (LEqual(Local2, BRIGHTNESS_DOWN))
+                    {
+                        Notify(\_SB.PCI0.LPCB.PS2K, KEY_F14)
+                    }
+                    ElseIf (LEqual(Local2, BRIGHTNESS_UP))
+                    {
+                        Notify(\_SB.PCI0.LPCB.PS2K, KEY_F15)
+                    }
                 }
             }
             Else
@@ -162,22 +186,28 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
         
         Method (_Q63, 0, NotSerialized)
         {
-            \RMDT.P1 ("KEYBOARD-Q63")
             \_SB.PCI0.LPCB.H_EC.XQ63()
             If (_OSI("Darwin"))
             {
-                Store(\_SB.PCI0.LPCB.H_EC.LBRI, BRI0)
+                If (LGEC)
+                {
+                    \RMDT.P1 ("KEYBOARD-Q63")
+                    Store(\_SB.PCI0.LPCB.H_EC.LBRI, BRI0)
+                }
             }
         }
                 
         Method (_Q72, 0, NotSerialized) //FN + F9
         {
-            \RMDT.P1 ("KEYBOARD-Q72")
             If (_OSI("Darwin"))
             {
-                Local0 = \_SB.PCI0.LPCB.H_EC.RDMD
-                \_SB.PCI0.LPCB.H_EC.RDMD = !Local0
-                Notify(\_SB.PCI0.LPCB.PS2K, KEY_F18)
+                If (LGEC)
+                {
+                    \RMDT.P1 ("KEYBOARD-Q72")
+                    Local0 = \_SB.PCI0.LPCB.H_EC.RDMD
+                    \_SB.PCI0.LPCB.H_EC.RDMD = !Local0
+                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F18)
+                }
             }
             Else
             {
@@ -187,19 +217,22 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
         
         Method (_QFF, 0, NotSerialized)
         {
-            \RMDT.P1 ("KEYBOARD-QFF")
             If (_OSI ("Darwin"))
             {
-                Local0 = \_SB.PCI0.LPCB.H_EC.FNKN
-                If (Local0 == KEY_FNF5)
+                If (LGEC)
                 {
-                    Local1 = \_SB.GGOV(GOV_TLED)
-                    \XINI.WMAB(WM_TLED, WM_SET, !Local1)
-                    Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
-                }
-                ElseIf (Local0 == KEY_FNF1)
-                {
-                    Notify(\_SB.PCI0.LPCB.PS2K, KEY_F17)
+                     \RMDT.P1 ("KEYBOARD-QFF")
+                    Local0 = \_SB.PCI0.LPCB.H_EC.FNKN
+                    If (Local0 == KEY_FNF5)
+                    {
+                        Local1 = \_SB.GGOV(GOV_TLED)
+                        \XINI.WMAB(WM_TLED, WM_SET, !Local1)
+                        Notify(\_SB.PCI0.LPCB.PS2K, 0x041e) // e01e
+                    }
+                    ElseIf (Local0 == KEY_FNF1)
+                    {
+                        Notify(\_SB.PCI0.LPCB.PS2K, KEY_F17)
+                    }
                 }
             }
             Else
