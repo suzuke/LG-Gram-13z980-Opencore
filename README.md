@@ -11,7 +11,7 @@
 + 系統版本 ： macOS Catalina 10.15.5
 + OpenCore版本 : 0.5.9
 + 產品名稱 ： 13z980-A.AAS5U1
-+  BIOS 版本： K22C0254 X64
++ BIOS 版本： K22C0254 X64
 + CPU型號 ： Intel i5-8250U
 + GPU型號 ： UHD Graphics 620
 + 記憶體 ： OnBoard 4G + 4G DDR4 2400MHz
