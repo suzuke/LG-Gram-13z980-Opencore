@@ -1,29 +1,41 @@
+//https://www.tonymacx86.com/threads/guide-usb-power-property-injection-for-sierra-and-later.222266/
 
-// SSDT-USBX.dsl
-//
-// USB Power Properties for Sierra+
-//
-// Formatting credits: RehabMan - https://github.com/RehabMan/Intel-NUC-DSDT-Patch/blob/master/SSDT-USBX.dsl
-//
-
-DefinitionBlock ("", "SSDT", 2, "hack", "_USBX", 0)
+// USB power properties via USBX device
+DefinitionBlock("", "SSDT", 2, "hack", "USBX", 0)
 {
-    // USB power properties via USBX device
-    Device(_SB.USBX)
+    Device (_SB.USBX)
     {
-        Name(_ADR, 0)
-        Method (_DSM, 4)
+        Name (_ADR, Zero)  // _ADR: Address
+        Method (_STA, 0, NotSerialized)  // _STA: Status
         {
-            If (!Arg2) { Return (Buffer() { 0x03 } ) }
-            Return (Package()
+            If (_OSI ("Darwin"))
             {
-                // these values from MacBookAir7,2
-                "kUSBWakePowerSupply", 3200,
-                "kUSBSleepPowerSupply", 2600,
-                "kUSBSleepPortCurrentLimit", 2100,
-                "kUSBWakePortCurrentLimit", 2100,
+                Return (0x0F)
+            }
+            Else
+            {
+                Return (Zero)
+            }
+        }
 
+        Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+        {
+            If (!Arg2)
+            {
+                Return (Buffer (One)
+                {
+                     0x03                                             // .
+                })
+            }
+
+            Return (Package (0x04)
+            {
+                "kUSBSleepPortCurrentLimit", 
+                0x0BB8, 
+                "kUSBWakePortCurrentLimit", 
+                0x0BB8
             })
         }
     }
 }
+//EOF
