@@ -15,6 +15,8 @@
 // Find:     5F57414B09
 // Replace:  5A57414B09
 //
+#define PNP0C0E_MODE    1
+#define PNP0C0D_MODE    0
 DefinitionBlock("", "SSDT", 2, "OCLT", "PTSWAK", 0)
 {
     External(ZPTS, MethodObj)
@@ -30,7 +32,7 @@ DefinitionBlock("", "SSDT", 2, "OCLT", "PTSWAK", 0)
         {
             Name (_ADR, Zero)
             Name (FNOK, Zero)
-            Name (MODE, One)
+            Name (MODE, PNP0C0E_MODE)
             Name (TPTS, Zero)
             Name (TWAK, Zero)
             Method (_STA, 0, NotSerialized)
