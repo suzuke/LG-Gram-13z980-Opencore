@@ -44,10 +44,10 @@
 + 觸控板正常，使用 [VoodooI2C](https://github.com/VoodooI2C/VoodooI2C) 驅動 (自行編譯了延長Timeout時間的版本，解決偶爾開機無法正常載入問題)。
 + 觸控螢幕失效，目前嘗試屏蔽原有 ACPI 中的 TPL裝置，定製一個新的TPX裝置使用，待修復。
 + 讀卡機正常，使用 **cholonam** 修改過後 [Sinetek-rtsx](https://github.com/cholonam/Sinetek-rtsx)版本。
-+ 內建藍芽可用，使用 [IntelBluetoothFirmware](https://github.com/zxystd/IntelBluetoothFirmware) ，有 [相關資訊](https://github.com/daliansky/XiaoMi-Pro-Hackintosh/wiki/Work-Around-with-Bluetooth) 指出有導致睡眠相關問題，但我測試是正常的。
++ 內建藍芽可用，使用 [IntelBluetoothFirmware](https://github.com/zxystd/IntelBluetoothFirmware) ，有 [相關資訊](https://github.com/daliansky/XiaoMi-Pro-Hackintosh/wiki/Work-Around-with-Bluetooth) 指出有導致睡眠相關問題，已使用自己修正後的版本，目前[測試沒有問題](https://github.com/zxystd/IntelBluetoothFirmware/issues/127#issuecomment-648935657)。
 + 內建無線網卡失效，目前在各方都有一些對於 Intel Wifi 網卡的嘗試 ( [itlwm](https://github.com/zxystd/itlwm), [AppleIntelWifi](https://github.com/AppleIntelWifi/adapter) )，不過都還達不到可以正常使用的階段，目前建議先以第二個M2插槽轉接 BCM94360CS2 免驅卡使用。
 + 睡眠 / 喚醒，測試正常，睡眠狀況下觀察耗電量也是極低。
-+ Hdmi 與耳機輸出都正常，也支援多螢幕顯示。
++ Hdmi 與耳機輸出都正常，也支援多螢幕顯示，有使用者回饋在外接解析度2k以上螢幕會有紫屏問題。
 + USB & Type-C 正常(沒有定製 USB，目前使用上似乎也沒有問題)。
 + 指紋失效，待研究。
 
