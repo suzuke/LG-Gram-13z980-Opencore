@@ -29,18 +29,20 @@
 	
 ### 目前狀況
 	這部分大概列出一些大家可能比較關心的項目，沒有特別提到的部分應該就是可以正常使用。
-+ FN 快捷鍵
++ FN 快捷鍵.  
+	建議使用 Misc 中的 **LGGramAssistant** 修改自[ThinkpadAssistant](https://github.com/MSzturc/ThinkpadAssistant) ，需搭配SSDT-FNKey使用，Launch on Login似乎失效，請自行新增到系統的登入項目。
 	1. 亮度調節 FN + F2, FN + F3 正常
 	2. 睡眠開關 FN + F4 正常。
 	3. 觸控板開關 FN + F5 正常，指示燈也正常。
 	4. 鍵盤燈開關 FN + F8 正常
 	5. 音量控制 FN + F10, FN + F11, FN + F12 正常
-	6. FN + F1 設定為 F17 (自行用第三方軟體或者偏好設定為**系統偏好設定**開關)
-	7.  FN + F6 設定為 F19 (自行用第三方軟體或者偏好設定為**無線網卡**開關)
-	8.  FN + F7 設定為 F16 (自行用第三方軟體或者偏好設定為**多螢幕**開關)
-	9.  FN + F9 設定為 F18 (自行用第三方軟體或者偏好設定為**夜覽模式**開關) 
-	10. FN + PrtSc (ScrLk) 目前尚未綁定功能
-	11.  PrtSc 設定為系統 F13 (自行用第三方軟體或者偏好設定為**全螢幕截圖**) 
+	6. FN + F1 設定為 F17 (使用 LGGramAssistant 綁定為**系統偏好設定**開關)
+	7. FN + F6 設定為 F19 (使用 LGGramAssistant 綁定為 **Wifi** 開關)
+	8. FN + LeftShift + F6 (使用 LGGramAssistant 綁定為**藍芽**開關) 
+	9. FN + F7 設定為 F16 (使用 LGGramAssistant 綁定為**多螢幕**開關)
+	10. FN + F9 設定為 F18 (使用 LGGramAssistant 綁定為**夜覽模式**開關) 
+	11. FN + PrtSc (ScrLk) 目前尚未綁定功能
+	12. PrtSc 設定為系統 F13 (使用系統快速鍵綁定為**全螢幕截圖**) 
 + 觸控板正常，使用 [VoodooI2C](https://github.com/VoodooI2C/VoodooI2C) 驅動 (自行編譯了延長Timeout時間的版本，解決偶爾開機無法正常載入問題)。
 + 觸控螢幕失效，目前嘗試屏蔽原有 ACPI 中的 TPL裝置，定製一個新的TPX裝置使用，待修復。
 + 讀卡機正常，使用 **cholonam** 修改過後 [Sinetek-rtsx](https://github.com/cholonam/Sinetek-rtsx)版本。
