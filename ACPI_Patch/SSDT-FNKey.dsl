@@ -33,6 +33,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
 {
     External (_SB.PCI0.LPCB.H_EC, DeviceObj)
     External (_SB.PCI0.LPCB.H_EC.LID0, DeviceObj)
+    External (_SB.PCI0.LPCB.H_EC.XQ01, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ34, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ36, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.XQ37, MethodObj)
@@ -46,6 +47,7 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (RMDT.P1__, MethodObj) 
     External (RMDT.P2__, MethodObj)
     External (LGEC, IntObj)
+    External (SLID, FieldUnitObj)
     External (_SB.PCI0.LPCB.H_EC.LBRI, FieldUnitObj)
     External (_SB.PCI0.LPCB.H_EC.LBRR, FieldUnitObj)
     External (_SB.PCI0.LPCB.H_EC.FNKN, FieldUnitObj)
@@ -54,12 +56,25 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNKey", 0x00000000)
     External (XINI.WMAB, MethodObj)
     External (_SB.PCI0.LPCB.H_EC.RDMD, FieldUnitObj)
     
-    External (\_SB.PCI0.DPLY._BCL, MethodObj) //_BCL: Brightness Control Levels
-    External (\_SB.PCI0.DPLY._BCM, MethodObj) // _BCM: Brightness Control Method
-    External (\_SB.PCI0.DPLY._BQC, MethodObj) // _BQC: Brightness Query Current
+    External (_SB.PCI0.DPLY._BCL, MethodObj) //_BCL: Brightness Control Levels
+    External (_SB.PCI0.DPLY._BCM, MethodObj) // _BCM: Brightness Control Method
+    External (_SB.PCI0.DPLY._BQC, MethodObj) // _BQC: Brightness Query Current
         
     Scope (_SB.PCI0.LPCB.H_EC)
     {
+        Method (_Q01, 0, NotSerialized) //Power adapter
+        {
+            If (_OSI ("Darwin"))
+            {
+                If (LGEC)
+                {
+                    \RMDT.P1 ("KEYBOARD-Q01")
+                    \XINI.WMAB(WM_BATT_LIMIT, WM_SET, 0x50) //0x50 = 80%, 0x64 = 100%
+                }
+            }
+            \_SB.PCI0.LPCB.H_EC.XQ01()
+        }
+        
         Method (_Q34, 0, NotSerialized) //FN + F4
         {
             If (_OSI ("Darwin"))

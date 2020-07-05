@@ -73,11 +73,11 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "FNDbug", 0x00000000)
 
     Scope (_SB.PCI0.LPCB.H_EC)
     {   
-        Method (_Q01, 0, NotSerialized)
-        {
-            \RMDT.P1 ("KEYBOARD-Q01")
-            \_SB.PCI0.LPCB.H_EC.XQ01()
-        }
+//        Method (_Q01, 0, NotSerialized)
+//        {
+//            \RMDT.P1 ("KEYBOARD-Q01")
+//            \_SB.PCI0.LPCB.H_EC.XQ01()
+//        }
         Method (_Q02, 0, NotSerialized)
         {
             \RMDT.P1 ("KEYBOARD-Q02")
