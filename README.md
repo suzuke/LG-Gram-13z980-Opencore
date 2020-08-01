@@ -19,6 +19,9 @@
 + 內建音效卡 ： Conexant CX8200
 + 無線網卡 ： Intel AC8265 (BCM94360CS2)
 
+### 注意
++ 已使用[USBMap](https://github.com/corpnewt/USBMap) 做USB port定製，如果你不是13z980，請自行針對自己的機型再定製一次 [USBMap.kext](EFI/OC/Kexts/USBMap.kext)，否則可能會有USB孔無法使用問題。
+
 ### 事前準備
 + 修改 BIOS 設定 (開機時按下F2進入 BIOS 後，Ctrl + Alt + F7 開啟 BIOS 隱藏選項， 感謝 **as695336480** 提供：[出處](https://github.com/capricornlee/LG-Gram13-Z990/issues/7#issue-624133249))   
 + 以下由 **linGinc** 整理提供，感謝！
