@@ -89,8 +89,8 @@ DefinitionBlock ("", "SSDT", 2, "OCLT", "HRTfix", 0)
                     0x0070, 
                     0x0070, 
                     0x01, 
-                    0x02,
-                    //0x08
+                    //0x02,
+                    0x08
                     )
             })
             Method (_STA, 0, NotSerialized)
