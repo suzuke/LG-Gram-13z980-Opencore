@@ -8,8 +8,8 @@
 基本上就是利用空閒時間進行，主要目的是學習 Hackintosh 的原理跟相關的知識。  
 有任何的問題或建議都可以發 Issue 或者 pull request。
 ### 詳細資訊
-+ 系統版本 ： macOS Catalina 10.15.6
-+ OpenCore版本 : 0.6.1
++ 系統版本 ： macOS Catalina 10.15.7
++ OpenCore版本 : 0.6.2
 + 產品名稱 ： 13z980-A.AAS5U1
 + BIOS 版本： K22C0254 X64
 + CPU型號 ： Intel i5-8250U
